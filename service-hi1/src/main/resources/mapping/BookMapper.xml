@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.BookMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.pojo.Book" >
+    <id column="bookid" property="bookid" jdbcType="INTEGER" />
+    <result column="bookname" property="bookname" jdbcType="VARCHAR" />
+    <result column="bookdate" property="bookdate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bookid, bookname, bookdate
+  </sql>
+  <select id="queryCount" resultType="long">
+    select count(*)from book
+  </select>
+
+  <select id="queryBook" resultMap="BaseResultMap">
+    select * from book limit #{st},#{ro}
+  </select>
+
+  <select id="showBook" resultMap="BaseResultMap">
+    SELECT * from book
+  </select>
+  <delete id="delBook">
+    delete from book where bookid = #{bookid}
+  </delete>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from book
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.pojo.Book" >
+    insert into book (bookid, bookname, bookdate
+      )
+    values (#{bookid,jdbcType=INTEGER}, #{bookname,jdbcType=VARCHAR}, #{bookdate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.pojo.Book" >
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        bookid,
+      </if>
+      <if test="bookname != null" >
+        bookname,
+      </if>
+      <if test="bookdate != null" >
+        bookdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="bookname != null" >
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="bookdate != null" >
+        #{bookdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.pojo.Book" >
+    update book
+    <set >
+      <if test="bookname != null" >
+        bookname = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="bookdate != null" >
+        bookdate = #{bookdate,jdbcType=DATE},
+      </if>
+    </set>
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.pojo.Book" >
+    update book
+    set bookname = #{bookname,jdbcType=VARCHAR},
+      bookdate = #{bookdate,jdbcType=DATE}
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </update>
+</mapper>

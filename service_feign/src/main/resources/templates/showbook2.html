@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+</head>
+<!-- Bootstrap 插件 css -->
+<link th:href="@{/js/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet">
+
+<!-- Bootstrap 核心css -->
+<link th:href="@{/js/bootstrap/css/bootstrap.min.css}"  rel="stylesheet">
+<!-- Bootstrap TreeView css -->
+<link th:href="@{/js/bootstrap-treeview/dist/bootstrap-treeview.min.css}"  rel="stylesheet">
+
+<!-- Bootstrap addTabs css -->
+<link th:href="@{/js/bootStrap-addTabs/bootstrap.addtabs.css}"  rel="stylesheet">
+
+<!-- Bootstrap table css -->
+<link th:href="@{/js/bootstrap-table/dist/bootstrap-table.css}"  rel="stylesheet">
+<!-- bootstrap-datetimepicker css -->
+<link th:href="@{/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}"  rel="stylesheet">
+
+<!-- bootstrap-dialog css -->
+<link th:href="@{/js/bootstrap-dialog/dist/css/bootstrap-dialog.css}" rel="stylesheet" >
+<!-- bootstrap-fileinput css -->
+<link th:href="@{/js/bootstrap-fileinput/css/fileinput.css}"  rel="stylesheet">
+<link th:href="@{/uploadify/uploadify.css}">
+<body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-table/dist/bootstrap-table.js}"></script>
+<script th:src="@{/js/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js}"></script>
+<script th:src="@{/js/bootstrap-table/dist/bootstrap-table.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script th:src="@{/js/bootstrap-dialog/dist/js/bootstrap-dialog.js}"></script>
+<script th:src="@{/js/bootstrap-fileinput/js/fileinput.js}"></script>
+<script th:src="@{/js/bootstrap-fileinput/js/locales/zh.js}"></script>
+<script th:src="@{/js/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js}"></script>
+<script th:src="@{/js/bootstrap-fileinput/js/fileinput.js}"></script>
+<script th:src="@{/js/bootstrap-fileinput/js/locales/zh.js}"></script>
+
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h1>
+                活动列表
+            </h1>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <table class="table" id="emp-table" border="1"></table>
+            <script>
+                function actionFormatter(value, row, index) {
+                    var id = value;
+                    var result = "";
+                    result += "<a href='javascript:upd1(\""+row.bookid+"\")' >编辑</a>&nbsp;";
+                    result += "<a href='javascript:upd2(\""+row.bookid+"\")' >加入回收站</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    result += "<a href='javascript:chakan(\""+row.bookid+"\")' >查看报名信息</a>&nbsp;&nbsp;&nbsp;" +
+                        "";
+                    return result;
+                }
+                $(function(){
+                    $("#emp-table").bootstrapTable({
+                        url:"Access-Control-Allow-Origin:http://192.168.1.150:8082/queryBook/start/rows",
+                        //toolbar:"#tb",
+                        striped: true,//隔行变色
+                        showColumns:true,//是否显示 内容列下拉框
+                        showPaginationSwitch:true,//是否显示 数据条数选择框
+                        minimumCountColumns:1,//最小留下一个
+                        showRefresh:true,//显示刷新按钮
+                        showToggle:true,//显示切换视图
+                        //search:true,//是否显示搜索框
+                        searchOnEnterKey:true,//设置为 true时，按回车触发搜索方法，否则自动触发搜索方法
+                        pagination:true,//开启分页
+                        paginationLoop:true,//开启分页无限循环
+                        pageNumber:1,//当前页数
+                        pageSize:3,//每页条数
+                        pageList:[3,4,5],//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+                        sidePagination:"server",//使用服务端分页
+                        method:'post',//发送请求的方式
+                        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+                        queryParams:function(param){
+                            var bname = $("#tqname").val();
+                            var status=$("#zhuangtai option:selected").val();
+                            return {
+                                start:param.offset,
+                                rows:param.limit
+
+                            }
+                        },
+                        columns: [
+                            {
+                                checkbox:true,
+                            }, {
+                                field: 'bookname',
+                                title: '标题',
+                                idField:true,
+                                width: 100
+                            },
+                            {
+                                field: 'bookdate',
+                                title: '上传时间',
+                                idField:true,
+                                width: 100,
+                                formatter: function(value,row,index){
+                                    var aa=new Date(value)
+                                    return aa.toLocaleDateString()}
+                            },
+                            {
+                                field: 'act',
+                                title: '操作',
+                                width: 100,
+                                formatter:actionFormatter
+                            }
+
+                        ]
+                    })
+                })
+
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+</html>

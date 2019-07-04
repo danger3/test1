@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <table border="2">
+       <tr>
+           <th>新闻标题</th>
+           <th>内容详情</th>
+           <th>日期</th>
+           <th>新闻类别</th>
+       </tr>
+       <tr th:each="collect,iterStat : ${list}">
+           <th scope="row" th:text="${collect.id}">-</th>
+           <th th:text="${collect.nname}">-</th>
+           <th th:text="${collect.neirong}">-</th>
+           <th th:text="${collect.date}">-</th>
+           <th th:text="${collect.type}">-</th>
+       </tr>
+
+   </table>
+</body>
+</html>

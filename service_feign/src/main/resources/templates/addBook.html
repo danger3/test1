@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script th:src="@{/js/jquery.min.js}"></script>
+     <form id="bdid">
+         <table border="3">
+             <tr>
+                 <td>书籍名称</td>
+                 <td>上架日期</td>
+             </tr>
+             <tr>
+                 <td>
+                     <input id="bookname">
+                 </td>
+                 <td>
+                     <input id="bookdate">
+                 </td>
+             </tr>
+             <tr>
+                 <td colspan="2">
+                      <input type="button" value="新增" onclick="add()">
+                 </td>
+             </tr>
+         </table>
+
+     </form>
+<script>
+     function add() {
+         $.ajax({
+             type:"get",
+             url:"add",
+             data:$("#bdid").serialize(),
+             success:function (msg){
+                 alert("msg")
+             }
+         })
+     }
+
+</script>
+</body>
+</html>

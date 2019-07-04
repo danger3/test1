@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<center>
+    <input type="button" onclick="add()" value="新增">
+<table border="2px" cellspacing="0">
+    <tr>
+        <td>id</td>
+        <td>图书名称</td>
+        <td>发布时间</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="collect,iterStat : ${list}">
+        <th scope="row" th:text="${collect.bookid}">-</th>
+        <th th:text="${collect.bookname}">-</th>
+        <th th:text="${collect.bookdate.toLocaleString()}">-</th>
+
+        <th><input type="button" th:onclick="'delBook('+${collect.bookid}+')'" value="删除">
+            <input type="button" th:onclick="'updBook('+${collect.bookid}+')'" value="修改">
+        </th>
+    </tr>
+</table>
+</center>
+<script th:src="@{/js/jquery.min.js}"></script>
+  <script>
+       function delBook(bookid){
+           $.ajax({
+               type:"get",
+               url:"/delBook/"+bookid,
+               success:function (msg){
+                  alert("删除成功")
+               }
+           })
+       }
+     function add(){
+        location.href="/toadd"
+     }
+  </script>
+</body>
+</html>
